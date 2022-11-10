@@ -25,4 +25,14 @@ public class EleitorService {
         Eleitor eleitorNovo = repository.save(eleitor);
         return eleitorNovo;
     }
+
+    public Eleitor editaEleitor(Eleitor eleitor) {
+        Eleitor eleitorNovo = repository.save(eleitor);
+        return eleitorNovo;
+    }
+
+    public Boolean excluirEleitor(Integer id_e) {
+        repository.deleteById(id_e);
+        return true;
+    }
 }
