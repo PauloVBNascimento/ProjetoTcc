@@ -2,6 +2,7 @@ package br.com.urnawebapi.projeto.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +47,15 @@ public class EleitorController  {
     public ResponseEntity<?> excluirEleitor (@PathVariable Integer id_e) {
         eleitorService.excluirEleitor(id_e);
         return ResponseEntity.status(204).build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Eleitor> validarSenha(@RequestBody Eleitor eleitor) {
+        Boolean valido = eleitorService.validarSenha(eleitor);
+        if(!valido) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.status(200).build();
     }
 
 }
