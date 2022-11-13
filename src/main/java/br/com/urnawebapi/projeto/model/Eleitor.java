@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -17,16 +20,23 @@ public class Eleitor {
     @Column(name = "id_e")
     private Integer id_e;
 
-    @Column(name = "nome_e", length = 200, nullable = true)
+    @NotBlank(message = "O nome é obrigatório!")
+    @Size(min=3, message = "O nome deve ter no mínimo 3 caracteres!")
+    @Column(name = "nome_e", length = 200, nullable = false)
     private String nome_e;
 
-    @Column(name = "email_e", length = 50, nullable = true)
+    @Email(message = "Insira um email válido!")
+    @NotBlank(message = "O email é obrigatório!")
+    @Column(name = "email_e", length = 50, nullable = false)
     private String email_e;
 
-    @Column(name = "senha_e", columnDefinition = "TEXT", nullable = true)
+    @NotBlank(message = "A senha é obrigatória!")
+    @Size(min=6, message = "A senha deve ter no mínimo 6 caracteres!")
+    @Column(name = "senha_e", columnDefinition = "TEXT", nullable = false)
     private String senha_e;
 
-    @Column(name = "telefone_e", length = 15, nullable = true)
+    @NotBlank(message = "O telefone é obrigatório!")
+    @Column(name = "telefone_e", length = 15, nullable = false)
     private String telefone_e;
 
     public Integer getId_e() {
