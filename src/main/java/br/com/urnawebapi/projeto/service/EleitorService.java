@@ -2,12 +2,17 @@ package br.com.urnawebapi.projeto.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.com.urnawebapi.projeto.dto.EleitorDto;
 import br.com.urnawebapi.projeto.model.Eleitor;
 import br.com.urnawebapi.projeto.repository.EleitorInterface;
+import br.com.urnawebapi.projeto.security.TokenUtil;
+import br.com.urnawebapi.projeto.security.Token;
 
 @Service
 public class EleitorService {
@@ -26,27 +31,45 @@ public class EleitorService {
     }
 
     public Eleitor criarEleitor(Eleitor eleitor) {
-        String esconder = this.passwordEncoder.encode(eleitor.getSenha_e());
-        eleitor.setSenha_e(esconder);
+        String esconder = this.passwordEncoder.encode(eleitor.getSenha());
+        eleitor.setSenha(esconder);
         Eleitor eleitorNovo = repository.save(eleitor);
         return eleitorNovo;
     }
 
     public Eleitor editaEleitor(Eleitor eleitor) {
-        String esconder = this.passwordEncoder.encode(eleitor.getSenha_e());
-        eleitor.setSenha_e(esconder);
+        String esconder = this.passwordEncoder.encode(eleitor.getSenha());
+        eleitor.setSenha(esconder);
         Eleitor eleitorNovo = repository.save(eleitor);
         return eleitorNovo;
     }
 
-    public Boolean excluirEleitor(Integer id_e) {
-        repository.deleteById(id_e);
+    public Boolean excluirEleitor(Integer id) {
+        repository.deleteById(id);
         return true;
     }
 
     public Boolean validarSenha(Eleitor eleitor) {
-        String senha_e = repository.getReferenceById(eleitor.getId_e()).getSenha_e();
-        Boolean valido = passwordEncoder.matches(eleitor.getSenha_e(), senha_e);
+        String senha = repository.getReferenceById(eleitor.getId()).getSenha();
+        Boolean valido = passwordEncoder.matches(eleitor.getSenha(), senha);
         return valido;
     }
+
+    public Token gerarToken(@Valid EleitorDto eleitor) {
+        Eleitor user = repository.findByEmail(eleitor.getEmail());
+        System.out.println(eleitor.getSenha());
+        System.out.println(user.getSenha());
+        if(user != null) {
+            Boolean valid = passwordEncoder.matches(eleitor.getSenha(), user.getSenha());
+            if(valid) {
+                System.out.println(valid);
+                return new Token(TokenUtil.criarToken(user));
+            }   
+            else {
+
+            }     
+        }
+        return null;
+    
+    } 
 }

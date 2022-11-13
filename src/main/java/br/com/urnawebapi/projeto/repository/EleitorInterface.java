@@ -5,5 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.urnawebapi.projeto.model.Eleitor;
 
 public interface EleitorInterface extends JpaRepository<Eleitor, Integer>{
+
+    Eleitor findByEmail(String email);
+
+
+    
+    //public Eleitor findByEmail_e(String email_e);
     
 }

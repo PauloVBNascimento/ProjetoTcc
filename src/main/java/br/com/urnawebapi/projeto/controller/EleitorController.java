@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.urnawebapi.projeto.security.Token;
+import br.com.urnawebapi.projeto.dto.EleitorDto;
 import br.com.urnawebapi.projeto.model.Eleitor;
 import br.com.urnawebapi.projeto.service.EleitorService;
 
@@ -51,20 +53,21 @@ public class EleitorController  {
         return ResponseEntity.status(200).body(eleitorService.editaEleitor(eleitor));
     }
 
-    @DeleteMapping("/{id_e}")
-    public ResponseEntity<?> excluirEleitor (@PathVariable Integer id_e) {
-        eleitorService.excluirEleitor(id_e);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluirEleitor (@PathVariable Integer id) {
+        eleitorService.excluirEleitor(id);
         return ResponseEntity.status(204).build();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Eleitor> validarSenha(@Valid @RequestBody Eleitor eleitor) {
-        Boolean valido = eleitorService.validarSenha(eleitor);
-        if(!valido) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+     @PostMapping("/login")
+    public ResponseEntity<Token> logar(@Valid @RequestBody EleitorDto eleitor) {
+        //Boolean valido = eleitorService.validarSenha(eleitor);
+        Token token = eleitorService.gerarToken(eleitor);
+        if(token != null) {
+            return ResponseEntity.ok(token);
         }
-        return ResponseEntity.status(200).build();
-    }
+        return ResponseEntity.status(403).build();
+    } 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
