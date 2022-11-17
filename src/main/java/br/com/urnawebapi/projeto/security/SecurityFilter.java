@@ -17,7 +17,7 @@ public class SecurityFilter extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         
-        if (request.getHeader("Autorization") != null) {
+        if (request.getHeader("Authorization") != null) {
             Authentication auth = TokenUtil.validar(request);
             SecurityContextHolder.getContext().setAuthentication(auth);
         }

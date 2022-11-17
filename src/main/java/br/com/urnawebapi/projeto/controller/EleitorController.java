@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,9 +41,17 @@ public class EleitorController  {
         this.eleitorService = eleitorService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Eleitor>> listaEleitores () {
+   /*  @GetMapping
+    public ResponseEntity<List<Eleitor>> listaEleitores (Pageable pageable) {
         return ResponseEntity.status(200).body(eleitorService.listarEleitor());
+    } */
+
+    @GetMapping
+    public Page<Eleitor> listaEleitores (
+        @RequestParam(value="minDate", defaultValue = "")String minDate, 
+        @RequestParam(value="maxDate", defaultValue = "")String maxDate, 
+        Pageable pageable) {
+        return eleitorService.listarEleitor(minDate, maxDate, pageable);
     }
 
     @PostMapping

@@ -1,5 +1,8 @@
 package br.com.urnawebapi.projeto.model;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,6 +42,10 @@ public class Eleitor {
     @Column(name = "telefone", length = 15, nullable = false)
     private String telefone;
 
+    
+    @Column(name = "dataentrada", nullable = false)
+    private LocalDate dataentrada;
+
     public Integer getId() {
         return id;
     }
@@ -63,12 +70,17 @@ public class Eleitor {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+    public LocalDate getDataentrada() {
+        return dataentrada;
+    }
+    public void setData(LocalDate dataentrada) {
+        this.dataentrada = dataentrada;
+    }
     public String getTelefone() {
         return telefone;
     }
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-
     
 }

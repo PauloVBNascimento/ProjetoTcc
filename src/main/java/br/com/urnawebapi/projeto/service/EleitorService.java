@@ -1,9 +1,14 @@
 package br.com.urnawebapi.projeto.service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,9 +30,14 @@ public class EleitorService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public List<Eleitor> listarEleitor() {
-        List<Eleitor> lista = repository.findAll();
-        return lista;
+    public Page<Eleitor> listarEleitor(String minDate, String maxDate, Pageable pageable) {
+        
+        LocalDate hoje = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+
+        LocalDate min = minDate.equals("") ? hoje.minusDays(365) : LocalDate.parse(minDate);
+        LocalDate max = maxDate.equals("") ? hoje : LocalDate.parse(maxDate);
+
+        return repository.findEleitores(min,max,pageable);
     }
 
     public Eleitor criarEleitor(Eleitor eleitor) {
