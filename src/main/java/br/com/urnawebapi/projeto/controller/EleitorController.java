@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -29,22 +30,21 @@ import br.com.urnawebapi.projeto.security.Token;
 import br.com.urnawebapi.projeto.dto.EleitorDto;
 import br.com.urnawebapi.projeto.model.Eleitor;
 import br.com.urnawebapi.projeto.service.EleitorService;
+import br.com.urnawebapi.projeto.service.SmsService;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/eleitores")
 public class EleitorController  {
     
+    @Autowired
     private EleitorService eleitorService;
+    @Autowired
+    private SmsService smsService;
 
     public EleitorController(EleitorService eleitorService) {  
         this.eleitorService = eleitorService;
     }
-
-   /*  @GetMapping
-    public ResponseEntity<List<Eleitor>> listaEleitores (Pageable pageable) {
-        return ResponseEntity.status(200).body(eleitorService.listarEleitor());
-    } */
 
     @GetMapping
     public Page<Eleitor> listaEleitores (
@@ -52,6 +52,11 @@ public class EleitorController  {
         @RequestParam(value="maxDate", defaultValue = "")String maxDate, 
         Pageable pageable) {
         return eleitorService.listarEleitor(minDate, maxDate, pageable);
+    }
+
+    @GetMapping("/{id}/notificar")
+    public void notificar(@PathVariable Integer id){
+        smsService.sendSms(id);
     }
 
     @PostMapping

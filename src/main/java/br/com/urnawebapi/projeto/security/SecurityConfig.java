@@ -20,6 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
                         .antMatchers(HttpMethod.POST, "/eleitores/login").permitAll()
                         .antMatchers(HttpMethod.POST, "/eleitores").permitAll()
                         .antMatchers(HttpMethod.GET, "/eleitores").permitAll()
+                        .antMatchers(HttpMethod.GET, "/eleitores/{id}/notificar").permitAll()
                         //.antMatchers(HttpMethod.GET, "/eleitores").permitAll()
                         .anyRequest().authenticated().and().cors();
 
