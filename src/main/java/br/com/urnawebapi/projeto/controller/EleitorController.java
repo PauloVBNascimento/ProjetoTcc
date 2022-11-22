@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -58,13 +59,19 @@ public class EleitorController  {
     public void notificar(@PathVariable Integer id){
         smsService.sendSms(id);
     }
-
-    @PostMapping
-    public ResponseEntity<Eleitor> criarEleitor (@Valid @RequestBody Eleitor eleitor) {
-        return ResponseEntity.status(201).body(eleitorService.criarEleitor(eleitor));
+    
+    @GetMapping("/{id}")
+    public Eleitor acharEleitorPeloId(@PathVariable Integer id){
+        return eleitorService.procurarEleitor(id);
     }
 
-    @PutMapping
+    @PostMapping("/criar")
+    public ResponseEntity<Eleitor> criarEleitor (@Valid @RequestBody Eleitor eleitor) {
+        return ResponseEntity.status(201).body(eleitorService.criarEleitor(eleitor));
+        
+    }
+
+    @PutMapping("/{id}/editar")
     public ResponseEntity<Eleitor> editarEleitor (@Valid @RequestBody Eleitor eleitor) {
         return ResponseEntity.status(200).body(eleitorService.editaEleitor(eleitor));
     }
@@ -76,13 +83,10 @@ public class EleitorController  {
     }
 
      @PostMapping("/login")
-    public ResponseEntity<Token> logar(@Valid @RequestBody EleitorDto eleitor) {
+    public ResponseEntity<EleitorDto> logar(@Valid @RequestBody EleitorDto eleitor, @RequestHeader String Authorization) {
         //Boolean valido = eleitorService.validarSenha(eleitor);
-        Token token = eleitorService.gerarToken(eleitor);
-        if(token != null) {
-            return ResponseEntity.ok(token);
-        }
-        return ResponseEntity.status(403).build();
+        Eleitor user = eleitorService.gerarToken(eleitor, Authorization);
+        return new ResponseEntity<EleitorDto>(EleitorDto.toDTO(user,  "Bearer "), HttpStatus.ACCEPTED);
     } 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

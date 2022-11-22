@@ -18,9 +18,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
         httpSec.csrf()  .disable()
                         .authorizeHttpRequests()
                         .antMatchers(HttpMethod.POST, "/eleitores/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/eleitores").permitAll()
+                        .antMatchers(HttpMethod.POST, "/eleitores/criar").permitAll()
                         .antMatchers(HttpMethod.GET, "/eleitores").permitAll()
                         .antMatchers(HttpMethod.GET, "/eleitores/{id}/notificar").permitAll()
+                        .antMatchers(HttpMethod.GET, "/eleitores/{id}").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/eleitores/{id}/editar").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/eleitores/{id}").permitAll()
+
                         //.antMatchers(HttpMethod.GET, "/eleitores").permitAll()
                         .anyRequest().authenticated().and().cors();
 
