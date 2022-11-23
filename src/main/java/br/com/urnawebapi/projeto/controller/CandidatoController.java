@@ -26,31 +26,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.urnawebapi.projeto.dto.EleitorDto;
-import br.com.urnawebapi.projeto.model.Eleitor;
-import br.com.urnawebapi.projeto.service.EleitorService;
+import br.com.urnawebapi.projeto.dto.CandidatoDto;
+import br.com.urnawebapi.projeto.model.Candidato;
+import br.com.urnawebapi.projeto.service.CandidatoService;
 import br.com.urnawebapi.projeto.service.SmsService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/eleitores")
-public class EleitorController  {
+@RequestMapping("/candidatos")
+public class CandidatoController  {
     
     @Autowired
-    private EleitorService eleitorService;
+    private CandidatoService candidatoService;
     @Autowired
     private SmsService smsService;
 
-    public EleitorController(EleitorService eleitorService) {  
-        this.eleitorService = eleitorService;
+    public CandidatoController(CandidatoService candidatoService) {  
+        this.candidatoService = candidatoService;
     }
 
     @GetMapping
-    public Page<Eleitor> listaEleitores (
-        @RequestParam(value="minDate", defaultValue = "")String minDate, 
-        @RequestParam(value="maxDate", defaultValue = "")String maxDate, 
-        Pageable pageable) {
-        return eleitorService.listarEleitor(minDate, maxDate, pageable);
+    public Page<Candidato> listaCandidatos ( Pageable pageable) {
+        return candidatoService.listarCandidato(pageable);
     }
 
     @GetMapping("/{id}/notificar")
@@ -59,32 +56,32 @@ public class EleitorController  {
     }
     
     @GetMapping("/{id}")
-    public Eleitor acharEleitorPeloId(@PathVariable Integer id){
-        return eleitorService.procurarEleitor(id);
+    public Candidato acharCandidatoPeloId(@PathVariable Integer id){
+        return candidatoService.procurarCandidato(id);
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<Eleitor> criarEleitor (@Valid @RequestBody Eleitor eleitor) {
-        return ResponseEntity.status(201).body(eleitorService.criarEleitor(eleitor));
+    public ResponseEntity<Candidato> criarCandidato (@Valid @RequestBody Candidato candidato) {
+        return ResponseEntity.status(201).body(candidatoService.criarCandidato(candidato));
         
     }
 
     @PutMapping("/{id}/editar")
-    public ResponseEntity<Eleitor> editarEleitor (@Valid @RequestBody Eleitor eleitor) {
-        return ResponseEntity.status(200).body(eleitorService.editaEleitor(eleitor));
+    public ResponseEntity<Candidato> editarCandidato (@Valid @RequestBody Candidato candidato) {
+        return ResponseEntity.status(200).body(candidatoService.editaCandidato(candidato));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> excluirEleitor (@PathVariable Integer id) {
-        eleitorService.excluirEleitor(id);
+    public ResponseEntity<?> excluirCandidato (@PathVariable Integer id) {
+        candidatoService.excluirCandidato(id);
         return ResponseEntity.status(204).build();
     }
 
     /*  @PostMapping("/login")
-    public ResponseEntity<EleitorDto> logar(@Valid @RequestBody EleitorDto eleitor, @RequestHeader String Authorization) {
+    public ResponseEntity<CandidatoDto> logar(@Valid @RequestBody CandidatoDto candidato, @RequestHeader String Authorization) {
         //Boolean valido = eleitorService.validarSenha(eleitor);
-        Eleitor user = eleitorService.gerarToken(eleitor, Authorization);
-        return new ResponseEntity<EleitorDto>(EleitorDto.toDTO(user,  "Bearer "), HttpStatus.ACCEPTED);
+        Candidato user = candidatoService.gerarToken(eleitor, Authorization);
+        return new ResponseEntity<CandidatoDto>(CandidatoDto.toDTO(user,  "Bearer "), HttpStatus.ACCEPTED);
     } */
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

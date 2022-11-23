@@ -45,16 +45,9 @@ public class Eleitor {
     @Column(name = "dataentrada", nullable = false)
     private LocalDate dataentrada;
 
-    private String token;
 
     public void setDataentrada(LocalDate dataentrada) {
         this.dataentrada = dataentrada;
-    }
-    public String getToken() {
-        return token;
-    }
-    public void setToken(String token) {
-        this.token = token;
     }
     public Integer getId() {
         return id;

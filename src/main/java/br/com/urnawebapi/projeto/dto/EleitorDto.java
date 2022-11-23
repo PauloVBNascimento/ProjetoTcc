@@ -2,8 +2,6 @@ package br.com.urnawebapi.projeto.dto;
 
 import javax.validation.Valid;
 
-import br.com.urnawebapi.projeto.model.Eleitor;
-
 public class EleitorDto {
     private String nome;
     private String email;
@@ -59,9 +57,7 @@ public class EleitorDto {
 
 
 
-    public static EleitorDto toDTO(Eleitor user, String tipo) {
-        return new EleitorDto(user.getEmail(), user.getNome(), user.getToken(), tipo);
-    }
+    
 
 
 

@@ -5,7 +5,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -24,6 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
                         .antMatchers(HttpMethod.GET, "/eleitores/{id}").permitAll()
                         .antMatchers(HttpMethod.PUT, "/eleitores/{id}/editar").permitAll()
                         .antMatchers(HttpMethod.DELETE, "/eleitores/{id}").permitAll()
+                        //
+                        .antMatchers(HttpMethod.POST, "/candidatos/criar").permitAll()
+                        .antMatchers(HttpMethod.GET, "/candidatos").permitAll()
+                        .antMatchers(HttpMethod.GET, "/candidatos/{id}/notificar").permitAll()
+                        .antMatchers(HttpMethod.GET, "/candidatos/{id}").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/candidatos/{id}/editar").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/candidatos/{id}").permitAll()
 
                         //.antMatchers(HttpMethod.GET, "/eleitores").permitAll()
                         .anyRequest().authenticated().and().cors();

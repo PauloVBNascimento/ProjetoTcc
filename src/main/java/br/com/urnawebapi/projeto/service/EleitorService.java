@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -22,7 +21,7 @@ import br.com.urnawebapi.projeto.model.Eleitor;
 import br.com.urnawebapi.projeto.repository.EleitorInterface;
 import br.com.urnawebapi.projeto.security.TokenUtil;
 import io.jsonwebtoken.Claims;
-import br.com.urnawebapi.projeto.security.Token;
+
 
 @Service
 public class EleitorService {
