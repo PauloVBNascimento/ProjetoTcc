@@ -30,6 +30,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
                         .antMatchers(HttpMethod.GET, "/candidatos/{id}").permitAll()
                         .antMatchers(HttpMethod.PUT, "/candidatos/{id}/editar").permitAll()
                         .antMatchers(HttpMethod.DELETE, "/candidatos/{id}").permitAll()
+                        //
+                        .antMatchers(HttpMethod.POST, "/urnas/criar").permitAll()
+                        .antMatchers(HttpMethod.GET, "/urnas").permitAll()
+                        .antMatchers(HttpMethod.GET, "/urnas/{id}/notificar").permitAll()
+                        .antMatchers(HttpMethod.GET, "/urnas/{id}").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/urnas/{id}/editar").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/urnas/{id}").permitAll()
+                        //
+                        .antMatchers(HttpMethod.POST, "/candidatournas/criar").permitAll()
+                        .antMatchers(HttpMethod.GET, "/candidatournas").permitAll()
+                        .antMatchers(HttpMethod.GET, "/candidatournas/{id}/notificar").permitAll()
+                        .antMatchers(HttpMethod.GET, "/candidatournas/{id}").permitAll()
+                        .antMatchers(HttpMethod.PUT, "/candidatournas/{id}/editar").permitAll()
+                        .antMatchers(HttpMethod.DELETE, "/candidatournas/{id}").permitAll()
 
                         //.antMatchers(HttpMethod.GET, "/eleitores").permitAll()
                         .anyRequest().authenticated().and().cors();

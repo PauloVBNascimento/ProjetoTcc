@@ -24,22 +24,22 @@ public class CandidatoService {
         return repository.findCandidatos(pageable);
     }
 
-    public Candidato criarCandidato(Candidato Candidato) {
-        Candidato CandidatoNovo = repository.save(Candidato);
-        return CandidatoNovo;
+    public Candidato criarCandidato(Candidato candidato) {
+        Candidato candidatonovo = repository.save(candidato);
+        return candidatonovo;
     }
 
     public Candidato procurarCandidato(Integer id) {
-        Optional<Candidato> CandidatoEncontrado = repository.findById(id);
-        if (CandidatoEncontrado.isPresent()) {
-            return CandidatoEncontrado.get();
+        Optional<Candidato> candidatoencontrado = repository.findById(id);
+        if (candidatoencontrado.isPresent()) {
+            return candidatoencontrado.get();
         }
         throw new RuntimeException("Não encontrei");
     }
 
-    public Candidato editaCandidato(Candidato Candidato) {
-        Candidato CandidatoNovo = repository.save(Candidato);
-        return CandidatoNovo;
+    public Candidato editaCandidato(Candidato candidato) {
+        Candidato candidatonovo = repository.save(candidato);
+        return candidatonovo;
     }
 
     public Boolean excluirCandidato(Integer id) {

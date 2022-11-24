@@ -26,27 +26,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.urnawebapi.projeto.model.Candidato;
-import br.com.urnawebapi.projeto.service.CandidatoService;
+import br.com.urnawebapi.projeto.model.CandidatoUrna;
+import br.com.urnawebapi.projeto.service.CandidatoUrnaService;
 import br.com.urnawebapi.projeto.service.SmsService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/candidatos")
-public class CandidatoController  {
-    
+@RequestMapping("/candidatournas")
+
+public class CandidatoUrnaController {
     @Autowired
-    private CandidatoService candidatoService;
+    private CandidatoUrnaService candidatoUrnaService;
     @Autowired
     private SmsService smsService;
 
-    public CandidatoController(CandidatoService candidatoService) {  
-        this.candidatoService = candidatoService;
+    public CandidatoUrnaController(CandidatoUrnaService candidatoUrnaService) {  
+        this.candidatoUrnaService = candidatoUrnaService;
     }
 
     @GetMapping
-    public Page<Candidato> listaCandidatos ( Pageable pageable) {
-        return candidatoService.listarCandidato(pageable);
+    public Page<CandidatoUrna> listaCandidatoUrnas ( Pageable pageable) {
+        return candidatoUrnaService.listarCandidatoUrna(pageable);
     }
 
     @GetMapping("/{id}/notificar")
@@ -55,33 +55,26 @@ public class CandidatoController  {
     }
     
     @GetMapping("/{id}")
-    public Candidato acharCandidatoPeloId(@PathVariable Integer id){
-        return candidatoService.procurarCandidato(id);
+    public CandidatoUrna acharCandidatoUrnaPeloId(@PathVariable Integer id){
+        return candidatoUrnaService.procurarCandidatoUrna(id);
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<Candidato> criarCandidato (@Valid @RequestBody Candidato candidato) {
-        return ResponseEntity.status(201).body(candidatoService.criarCandidato(candidato));
+    public ResponseEntity<CandidatoUrna> criarCandidatoUrna (@Valid @RequestBody CandidatoUrna candidatourna) {
+        return ResponseEntity.status(201).body(candidatoUrnaService.criarCandidatoUrna(candidatourna));
         
     }
 
     @PutMapping("/{id}/editar")
-    public ResponseEntity<Candidato> editarCandidato (@Valid @RequestBody Candidato candidato) {
-        return ResponseEntity.status(200).body(candidatoService.editaCandidato(candidato));
+    public ResponseEntity<CandidatoUrna> editarCandidatoUrna (@Valid @RequestBody CandidatoUrna candidatourna) {
+        return ResponseEntity.status(200).body(candidatoUrnaService.editaCandidatoUrna(candidatourna));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> excluirCandidato (@PathVariable Integer id) {
-        candidatoService.excluirCandidato(id);
+    public ResponseEntity<?> excluirCandidatoUrna (@PathVariable Integer id) {
+        candidatoUrnaService.excluirCandidatoUrna(id);
         return ResponseEntity.status(204).build();
     }
-
-    /*  @PostMapping("/login")
-    public ResponseEntity<CandidatoDto> logar(@Valid @RequestBody CandidatoDto candidato, @RequestHeader String Authorization) {
-        //Boolean valido = eleitorService.validarSenha(eleitor);
-        Candidato user = candidatoService.gerarToken(eleitor, Authorization);
-        return new ResponseEntity<CandidatoDto>(CandidatoDto.toDTO(user,  "Bearer "), HttpStatus.ACCEPTED);
-    } */
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

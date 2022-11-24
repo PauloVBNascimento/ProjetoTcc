@@ -1,10 +1,13 @@
 package br.com.urnawebapi.projeto.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -13,6 +16,10 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "candidato")
 public class Candidato {
+
+    @OneToMany(mappedBy = "candidato")
+    Set<Urna> urna;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -34,6 +41,9 @@ public class Candidato {
     @NotBlank(message = "O número é obrigatório!")
     @Column(name = "numero", length = 15, nullable = false)
     private String numero;
+
+    @OneToMany (mappedBy = "candidato")
+    Set<CandidatoUrna> votostotais;
 
     public Integer getId() {
         return id;
