@@ -19,9 +19,6 @@ import javax.validation.constraints.Size;
 @Table(name = "eleitor")
 public class Eleitor {
 
-    @OneToMany(mappedBy = "eleitor")
-    Set<Urna> urna;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

@@ -17,9 +17,6 @@ import javax.validation.constraints.Size;
 @Table(name = "candidato")
 public class Candidato {
 
-    @OneToMany(mappedBy = "candidato")
-    Set<Urna> urna;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -42,8 +39,8 @@ public class Candidato {
     @Column(name = "numero", length = 15, nullable = false)
     private String numero;
 
-    @OneToMany (mappedBy = "candidato")
-    Set<CandidatoUrna> votostotais;
+    @Column(name = "votos", length = 15, nullable = false)
+    private int votos;
 
     public Integer getId() {
         return id;
